@@ -14,8 +14,18 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Input from "@mui/material/Input";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { makeStyles } from "@material-ui/core/styles";
+
+const styles = makeStyles({
+  color: {
+    color: "#161a25",
+    margin:"auto"
+  },
+});
 
 function Todo() {
+  const classes = styles();
+
   const [todos, setTodos] = useState([{}]);
   const [todoInput, setTodoInput] = useState({
     id: "",
@@ -34,9 +44,9 @@ function Todo() {
       .then((res) => setTodos(res.data))
       .catch((err) => console.log("get Error", err));
   };
-  console.log(todoInput)
+  console.log(todoInput);
   const handleSubmit = async () => {
-    if (todoInput.todo=="") {
+    if (todoInput.todo == "") {
       alert("Cannot add Empty todo");
     } else {
       if (!editMode) {
@@ -75,14 +85,15 @@ function Todo() {
 
   return (
     <Box sx={{ width: 600, px: 4, py: 1, margin: "auto" }}>
+      <h1 className={classes.color}>Material Ui Tasks </h1>
       <Box
         sx={{
           padding: "10px 20px",
           background: "#251749",
           margin: "10px 0px",
           borderRadius: "10px",
-          display:"flex",
-          gap:"0px 20px"
+          display: "flex",
+          gap: "0px 20px",
         }}
       >
         <Input
@@ -90,7 +101,12 @@ function Todo() {
           onChange={(e) => setTodoInput({ todo: e.target.value })}
           value={todoInput.todo}
           type="text"
-          sx={{ padding: "0px 20px", color:"white", width: "500px", fontSize: "1.5rem" }}
+          sx={{
+            padding: "0px 20px",
+            color: "white",
+            width: "500px",
+            fontSize: "1.5rem",
+          }}
         />
         <Fab color="primary" aria-label="Delete">
           {!editMode ? (
@@ -100,19 +116,37 @@ function Todo() {
           )}
         </Fab>
       </Box>
-      <TableContainer sx={{background: "#263159",color:"white"}} component={Paper} elevation={2}>
+      <TableContainer
+        sx={{ background: "#263159", color: "white" }}
+        component={Paper}
+        elevation={2}
+      >
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell sx={{color:"white",fontWeight:'700',fontSize:"1rem"}}>Todos </TableCell>
-              <TableCell sx={{color:"white",fontWeight:'700',fontSize:"1rem"}} align="right">Action (Edit)</TableCell>
-              <TableCell sx={{color:"white",fontWeight:'700',fontSize:"1rem"}} align="right">Action (Delete)</TableCell>
+              <TableCell
+                sx={{ color: "white", fontWeight: "700", fontSize: "1rem" }}
+              >
+                Todos{" "}
+              </TableCell>
+              <TableCell
+                sx={{ color: "white", fontWeight: "700", fontSize: "1rem" }}
+                align="right"
+              >
+                Action (Edit)
+              </TableCell>
+              <TableCell
+                sx={{ color: "white", fontWeight: "700", fontSize: "1rem" }}
+                align="right"
+              >
+                Action (Delete)
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {todos.map((elem) => (
               <TableRow key={elem.id}>
-                <TableCell sx={{color:"white"}}>{elem.todo}</TableCell>
+                <TableCell sx={{ color: "white" }}>{elem.todo}</TableCell>
                 <TableCell align="right">
                   <Fab color="secondary" aria-label="Edit">
                     <EditIcon onClick={() => handleEdit(elem.id)} />
